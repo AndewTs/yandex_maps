@@ -144,17 +144,10 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="comboBox_2">
-         <item>
-          <property name="text">
-           <string>Светлая тема</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Тёмная тема</string>
-          </property>
-         </item>
+        <widget class="QCheckBox" name="checkBox_2">
+         <property name="text">
+          <string>Темная тема</string>
+         </property>
         </widget>
        </item>
       </layout>
