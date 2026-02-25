@@ -21,7 +21,6 @@ class MainWindow(QMainWindow):
         self.horizontalSlider.setRange(0, 21)
         self.horizontalSlider.setValue(config.DEFAULT_ZOOM)
 
-        # Подключаем сигналы
         self.checkBox_2.stateChanged.connect(self.update_map)
         self.horizontalSlider.valueChanged.connect(self.update_map)
         self.pushButton_2.clicked.connect(self.set_marker_and_show)
@@ -34,16 +33,18 @@ class MainWindow(QMainWindow):
 
         self.update_map()
 
-    def show_map(self, center_coords, zoom, marker_coords):
+    def show_map(self, center_coords, zoom, theme, marker_coords):
         size = "250,250"
         map_type = "map"
-        url = "https://static-maps.yandex.ru/1.x/"
+        url = "https://static-maps.yandex.ru/v1"
         params = {
             "ll": center_coords,
             "z": zoom,
             "size": size,
             "l": map_type,
             "pt": f"{marker_coords[0]},{marker_coords[1]},pm2rdl",
+            "theme": theme,
+            "apikey": config.STATIC_API_KEY
         }
         try:
             response = requests.get(url, params=params)
@@ -61,7 +62,8 @@ class MainWindow(QMainWindow):
             lon, lat = self.normalize_coords(lon, lat)
             center_coords = f"{lon},{lat}"
             zoom = self.horizontalSlider.value()
-            self.show_map(center_coords, zoom, self.marker_coords)
+            theme = "dark" if self.checkBox_2.isChecked() else "light"
+            self.show_map(center_coords, zoom, theme, self.marker_coords)
         except ValueError:
             pass
 
